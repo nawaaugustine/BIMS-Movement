@@ -350,6 +350,8 @@ function hideInformationPanel() {
 
     // Restart the animation of moving dots to reflect the reset state
     animateDots();
+
+    refreshBubbleVisualization();
 }
 
 function initializeBubbleLayerInteractions() {
@@ -452,7 +454,8 @@ function aggregateDataForBothDirections(selectedCountry, movements) {
 }
 
 function updateBubbleLayer(aggregatedData) {
-    // Update the data source for the bubble layer with the new aggregated data
+    // Update the bubble layer with the new aggregated data.
+    // This function body remains the same as in your initial code.
     map.getSource('country-from-bubbles').setData({
         type: 'FeatureCollection',
         features: aggregatedData
@@ -538,4 +541,55 @@ function getOriginCoordinates(country, geoJson) {
     } else {
         return [0, 0]; // Default coordinates if none are found
     }
+}
+
+function refreshBubbleVisualization() {
+    // Check if a country is selected; if not, aggregate and display global data.
+    if (!selectedFromCountry && !selectedToCountry) {
+        const aggregatedGlobalData = aggregateGlobalMovementCounts(globalGeoJson);
+        updateBubbleLayer(aggregatedGlobalData);
+    } else {
+        // If a country is selected, filter and display data relevant to that selection.
+        const selectedCountry = selectedFromCountry || selectedToCountry; // Assuming you have logic to handle this
+        const relatedMovements = filterRelatedMovements(selectedCountry, globalGeoJson);
+        const aggregatedData = aggregateDataForSelectedCountry(relatedMovements, selectedCountry);
+        updateBubbleLayer(aggregatedData);
+    }
+}
+
+
+function aggregateGlobalMovementCounts(geoJson) {
+    // This function aggregates movement counts for all countries, creating a global overview.
+    let counts = {};
+    geoJson.features.forEach(feature => {
+        let country = feature.properties.country_from;
+        if (!counts[country]) counts[country] = 0;
+        counts[country] += feature.properties.movement_count;
+    });
+
+    // Convert the counts into the format expected by the bubble layer.
+    return Object.entries(counts).map(([country, count]) => ({
+        type: "Feature",
+        properties: {
+            country_from: country,
+            movement_count: count,
+        },
+        geometry: {
+            type: "Point",
+            coordinates: getOriginCoordinates(country, geoJson) // Assuming this function returns appropriate coordinates
+        }
+    }));
+}
+
+function filterRelatedMovements(selectedCountry, geoJson) {
+    // Filter movements related to the selected country, either as origin or destination.
+    return geoJson.features.filter(feature =>
+        feature.properties.country_from === selectedCountry || feature.properties.country_to === selectedCountry
+    );
+}
+
+function aggregateDataForSelectedCountry(movements, selectedCountry) {
+    // Aggregate data for the selected country, similar to aggregateDataForBothDirections or any specific logic needed.
+    // This is a placeholder for the aggregation logic, which should match your app's requirements.
+    return aggregateDataForBothDirections(selectedCountry, movements);
 }
