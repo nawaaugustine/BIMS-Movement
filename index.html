@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Map Visualization</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js"></script>
+    <!-- Include PapaParse from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <!-- Include Turf.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf"></script>
+    <link href='./style/style.css' rel='stylesheet' />
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        .info-panel-hidden { transform: translateX(100%); /* Initial state off-screen */ }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<div id="info-panel" class="info-panel-hidden">
+    <button class="close-btn">×</button> <!-- Ensure this matches the class used in querySelector -->
+    <h1></h1> <!-- Ensure there's an <h1> tag to update -->
+    <p></p> <!-- Ensure there's a <p> tag to update -->
+    <!-- Add more elements here as needed -->
+</div>
+
+<script src="movement.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+country_from,country_to,latitude_from,longitude_from,latitude_to,longitude_to,movement_count,Flow
+Afghanistan,Pakistan,33.9098,66.0664,29.4913,68.8616,2,Within APAC
+Bangladesh,India,22.8701,89.1914,22.6178,79.3773,979,Within APAC
+Bangladesh,Indonesia,22.8701,89.1914,-2.9659,113.6536,859,Within APAC
+Bangladesh,Malaysia,22.8701,89.1914,4.8142,110.7531,1730,Within APAC
+Bangladesh,Nepal,22.8701,89.1914,28.2717,83.9298,36,Within APAC
+Bangladesh,Pakistan,22.8701,89.1914,29.4913,68.8616,3,Within APAC
+Bangladesh,Thailand,22.8701,89.1914,15.1991,101.0209,328,Within APAC
+Bangladesh,Islamic Republic of Iran,22.8701,89.1914,32.764,54.2199,1,Within APAC
+India,Bangladesh,22.6178,79.3773,22.8701,89.1914,360,Within APAC
+India,Indonesia,22.6178,79.3773,-2.9659,113.6536,1,Within APAC
+India,Malaysia,22.6178,79.3773,4.8142,110.7531,15,Within APAC
+India,Nepal,22.6178,79.3773,28.2717,83.9298,33,Within APAC
+India,Pakistan,22.6178,79.3773,29.4913,68.8616,156,Within APAC
+India,Thailand,22.6178,79.3773,15.1991,101.0209,3,Within APAC
+Indonesia,Bangladesh,-2.9659,113.6536,22.8701,89.1914,9,Within APAC
+Indonesia,Malaysia,-2.9659,113.6536,4.8142,110.7531,134,Within APAC
+Indonesia,Pakistan,-2.9659,113.6536,29.4913,68.8616,13,Within APAC
+Indonesia,Islamic Republic of Iran,-2.9659,113.6536,32.764,54.2199,1,Within APAC
+Malaysia,Bangladesh,4.8142,110.7531,22.8701,89.1914,229,Within APAC
+Malaysia,India,4.8142,110.7531,22.6178,79.3773,34,Within APAC
+Malaysia,Indonesia,4.8142,110.7531,-2.9659,113.6536,30,Within APAC
+Malaysia,Nepal,4.8142,110.7531,28.2717,83.9298,1,Within APAC
+Malaysia,Pakistan,4.8142,110.7531,29.4913,68.8616,6,Within APAC
+Malaysia,Sri Lanka,4.8142,110.7531,7.6176,80.7046,2,Within APAC
+Malaysia,Thailand,4.8142,110.7531,15.1991,101.0209,19,Within APAC
+Malaysia,Islamic Republic of Iran,4.8142,110.7531,32.764,54.2199,2,Within APAC
+Malaysia,Afghanistan,4.8142,110.7531,33.9098,66.0664,1,Within APAC
+Nepal,India,28.2717,83.9298,22.6178,79.3773,6,Within APAC
+Pakistan,India,29.4913,68.8616,22.6178,79.3773,4,Within APAC
+Pakistan,Malaysia,29.4913,68.8616,4.8142,110.7531,12,Within APAC
+Pakistan,Islamic Republic of Iran,29.4913,68.8616,32.764,54.2199,12,Within APAC
+Pakistan,Tajikistan,29.4913,68.8616,38.3977,69.3247,30,Within APAC
+Sri Lanka,Pakistan,7.6176,80.7046,29.4913,68.8616,1,Within APAC
+Thailand,Malaysia,15.1991,101.0209,4.8142,110.7531,11,Within APAC
+Thailand,Sri Lanka,15.1991,101.0209,7.6176,80.7046,1,Within APAC
+Tajikistan,Pakistan,38.3977,69.3247,29.4913,68.8616,2,Within APAC
+Islamic Republic of Iran,Bangladesh,32.764,54.2199,22.8701,89.1914,1,Within APAC
+Islamic Republic of Iran,Pakistan,32.764,54.2199,29.4913,68.8616,7,Within APAC
+Islamic Republic of Iran,Tajikistan,32.764,54.2199,38.3977,69.3247,6,Within APAC
+Bangladesh,Brazil,22.8701,89.1914,-11.175,-53.0225,1,Outwards APAC
+Bangladesh,Cameroon,22.8701,89.1914,5.7094,12.7462,1,Outwards APAC
+Bangladesh,Chad,22.8701,89.1914,15.4513,18.6669,1,Outwards APAC
+Bangladesh,Egypt,22.8701,89.1914,26.6641,29.7676,2,Outwards APAC
+Bangladesh,Kenya,22.8701,89.1914,0.5344,37.8605,4,Outwards APAC
+Bangladesh,Libya,22.8701,89.1914,27.1529,18.0064,2,Outwards APAC
+Bangladesh,Poland,22.8701,89.1914,52.1847,19.3922,1,Outwards APAC
+Bangladesh,Rwanda,22.8701,89.1914,-2,29.9231,3,Outwards APAC
+Bangladesh,South Sudan,22.8701,89.1914,7.3023,30.3244,1,Outwards APAC
+Bangladesh,United Republic of Tanzania,22.8701,89.1914,-6.2863,34.8108,1,Outwards APAC
+Bangladesh,Tunisia,22.8701,89.1914,34.1645,9.5711,1,Outwards APAC
+Bangladesh,Uganda,22.8701,89.1914,1.2807,32.3912,1,Outwards APAC
+India,Chad,22.6178,79.3773,15.4513,18.6669,2,Outwards APAC
+India,Egypt,22.6178,79.3773,26.6641,29.7676,8,Outwards APAC
+India,Iraq,22.6178,79.3773,33.1158,43.76,3,Outwards APAC
+India,Kenya,22.6178,79.3773,0.5344,37.8605,2,Outwards APAC
+India,Libya,22.6178,79.3773,27.1529,18.0064,1,Outwards APAC
+India,Nigeria,22.6178,79.3773,9.609,8.1018,3,Outwards APAC
+India,Poland,22.6178,79.3773,52.1847,19.3922,1,Outwards APAC
+India,Somalia,22.6178,79.3773,4.4065,46.2037,1,Outwards APAC
+India,South Sudan,22.6178,79.3773,7.3023,30.3244,2,Outwards APAC
+India,Tunisia,22.6178,79.3773,34.1645,9.5711,1,Outwards APAC
+India,Uganda,22.6178,79.3773,1.2807,32.3912,4,Outwards APAC
+Indonesia,Chad,-2.9659,113.6536,15.4513,18.6669,1,Outwards APAC
+Indonesia,Egypt,-2.9659,113.6536,26.6641,29.7676,5,Outwards APAC
+Indonesia,Ethiopia,-2.9659,113.6536,8.6605,39.6307,3,Outwards APAC
+Indonesia,Iraq,-2.9659,113.6536,33.1158,43.76,1,Outwards APAC
+Indonesia,Kenya,-2.9659,113.6536,0.5344,37.8605,1,Outwards APAC
+Indonesia,Libya,-2.9659,113.6536,27.1529,18.0064,1,Outwards APAC
+Indonesia,South Sudan,-2.9659,113.6536,7.3023,30.3244,1,Outwards APAC
+Indonesia,Uganda,-2.9659,113.6536,1.2807,32.3912,3,Outwards APAC
+Indonesia,Zambia,-2.9659,113.6536,-14.6095,27.8525,1,Outwards APAC
+Malaysia,Burundi,4.8142,110.7531,-3.3669,29.8904,1,Outwards APAC
+Malaysia,Chad,4.8142,110.7531,15.4513,18.6669,1,Outwards APAC
+Malaysia,Colombia,4.8142,110.7531,3.9288,-73.0818,1,Outwards APAC
+Malaysia,Costa Rica,4.8142,110.7531,9.9732,-84.1978,1,Outwards APAC
+Malaysia,Côte d'Ivoire,4.8142,110.7531,7.6316,-5.5533,1,Outwards APAC
+Malaysia,Djibouti,4.8142,110.7531,11.5607,42.1827,2,Outwards APAC
+Malaysia,Egypt,4.8142,110.7531,26.6641,29.7676,13,Outwards APAC
+Malaysia,Ethiopia,4.8142,110.7531,8.6605,39.6307,1,Outwards APAC
+Malaysia,Iraq,4.8142,110.7531,33.1158,43.76,3,Outwards APAC
+Malaysia,Jordan,4.8142,110.7531,30.6562,37.1291,1,Outwards APAC
+Malaysia,Kenya,4.8142,110.7531,0.5344,37.8605,7,Outwards APAC
+Malaysia,Lebanon,4.8142,110.7531,33.9251,35.8987,3,Outwards APAC
+Malaysia,Libya,4.8142,110.7531,27.1529,18.0064,6,Outwards APAC
+Malaysia,Madagascar,4.8142,110.7531,-19.4805,46.6792,5,Outwards APAC
+Malaysia,Morocco,4.8142,110.7531,31.91,-6.243,2,Outwards APAC
+Malaysia,Poland,4.8142,110.7531,52.1847,19.3922,3,Outwards APAC
+Malaysia,Romania,4.8142,110.7531,45.8781,24.9828,2,Outwards APAC
+Malaysia,Somalia,4.8142,110.7531,4.4065,46.2037,1,Outwards APAC
+Malaysia,Tunisia,4.8142,110.7531,34.1645,9.5711,2,Outwards APAC
+Malaysia,Uganda,4.8142,110.7531,1.2807,32.3912,6,Outwards APAC
+Pakistan,Azerbaijan,29.4913,68.8616,40.3664,47.6554,1,Outwards APAC
+Pakistan,Brazil,29.4913,68.8616,-11.175,-53.0225,1,Outwards APAC
+Pakistan,Colombia,29.4913,68.8616,3.9288,-73.0818,3,Outwards APAC
+Pakistan,Egypt,29.4913,68.8616,26.6641,29.7676,5,Outwards APAC
+Pakistan,Iraq,29.4913,68.8616,33.1158,43.76,3,Outwards APAC
+Pakistan,Kenya,29.4913,68.8616,0.5344,37.8605,15,Outwards APAC
+Pakistan,Libya,29.4913,68.8616,27.1529,18.0064,1,Outwards APAC
+Pakistan,Nigeria,29.4913,68.8616,9.609,8.1018,2,Outwards APAC
+Pakistan,Poland,29.4913,68.8616,52.1847,19.3922,3,Outwards APAC
+Pakistan,Rwanda,29.4913,68.8616,-2,29.9231,1,Outwards APAC
+Pakistan,Somalia,29.4913,68.8616,4.4065,46.2037,3,Outwards APAC
+Pakistan,Uganda,29.4913,68.8616,1.2807,32.3912,3,Outwards APAC
+Pakistan,Zambia,29.4913,68.8616,-14.6095,27.8525,4,Outwards APAC
+Sri Lanka,Madagascar,7.6176,80.7046,-19.4805,46.6792,1,Outwards APAC
+Thailand,Colombia,15.1991,101.0209,3.9288,-73.0818,1,Outwards APAC
+Thailand,Egypt,15.1991,101.0209,26.6641,29.7676,3,Outwards APAC
+Thailand,Hungary,15.1991,101.0209,47.178,19.4264,1,Outwards APAC
+Thailand,Iraq,15.1991,101.0209,33.1158,43.76,3,Outwards APAC
+Thailand,Kenya,15.1991,101.0209,0.5344,37.8605,1,Outwards APAC
+Thailand,Libya,15.1991,101.0209,27.1529,18.0064,1,Outwards APAC
+Thailand,Nigeria,15.1991,101.0209,9.609,8.1018,1,Outwards APAC
+Thailand,Zambia,15.1991,101.0209,-14.6095,27.8525,1,Outwards APAC
+Tajikistan,Guyana,38.3977,69.3247,4.8003,-58.9766,1,Outwards APAC
+Islamic Republic of Iran,Brazil,32.764,54.2199,-11.175,-53.0225,1,Outwards APAC
+Islamic Republic of Iran,Cameroon,32.764,54.2199,5.7094,12.7462,1,Outwards APAC
+Islamic Republic of Iran,Uganda,32.764,54.2199,1.2807,32.3912,2,Outwards APAC
+Azerbaijan,Malaysia,40.3664,47.6554,4.8142,110.7531,4,Inwards APAC
+Azerbaijan,Pakistan,40.3664,47.6554,29.4913,68.8616,3,Inwards APAC
+Azerbaijan,Thailand,40.3664,47.6554,15.1991,101.0209,1,Inwards APAC
+Brazil,Malaysia,-11.175,-53.0225,4.8142,110.7531,1,Inwards APAC
+Burundi,Bangladesh,-3.3669,29.8904,22.8701,89.1914,1,Inwards APAC
+Cameroon,Indonesia,5.7094,12.7462,-2.9659,113.6536,1,Inwards APAC
+Cameroon,Malaysia,5.7094,12.7462,4.8142,110.7531,1,Inwards APAC
+Cameroon,Pakistan,5.7094,12.7462,29.4913,68.8616,3,Inwards APAC
+Chad,India,15.4513,18.6669,22.6178,79.3773,4,Inwards APAC
+Chad,Pakistan,15.4513,18.6669,29.4913,68.8616,3,Inwards APAC
+Chad,Thailand,15.4513,18.6669,15.1991,101.0209,1,Inwards APAC
+Colombia,Islamic Republic of Iran,3.9288,-73.0818,32.764,54.2199,1,Inwards APAC
+Democratic Republic of the Congo,Islamic Republic of Iran,-2.9045,23.6586,32.764,54.2199,1,Inwards APAC
+Djibouti,Islamic Republic of Iran,11.5607,42.1827,32.764,54.2199,1,Inwards APAC
+Ecuador,Pakistan,-1.4555,-78.3684,29.4913,68.8616,1,Inwards APAC
+Egypt,Bangladesh,26.6641,29.7676,22.8701,89.1914,3,Inwards APAC
+Egypt,India,26.6641,29.7676,22.6178,79.3773,3,Inwards APAC
+Egypt,Indonesia,26.6641,29.7676,-2.9659,113.6536,1,Inwards APAC
+Egypt,Pakistan,26.6641,29.7676,29.4913,68.8616,3,Inwards APAC
+Ethiopia,India,8.6605,39.6307,22.6178,79.3773,1,Inwards APAC
+Ethiopia,Indonesia,8.6605,39.6307,-2.9659,113.6536,1,Inwards APAC
+Ethiopia,Malaysia,8.6605,39.6307,4.8142,110.7531,2,Inwards APAC
+Ethiopia,Pakistan,8.6605,39.6307,29.4913,68.8616,1,Inwards APAC
+Iraq,Indonesia,33.1158,43.76,-2.9659,113.6536,1,Inwards APAC
+Jordan,Malaysia,30.6562,37.1291,4.8142,110.7531,1,Inwards APAC
+Kenya,Bangladesh,0.5344,37.8605,22.8701,89.1914,2,Inwards APAC
+Kenya,India,0.5344,37.8605,22.6178,79.3773,4,Inwards APAC
+Kenya,Indonesia,0.5344,37.8605,-2.9659,113.6536,10,Inwards APAC
+Kenya,Malaysia,0.5344,37.8605,4.8142,110.7531,11,Inwards APAC
+Kenya,Pakistan,0.5344,37.8605,29.4913,68.8616,3,Inwards APAC
+Kenya,Islamic Republic of Iran,0.5344,37.8605,32.764,54.2199,1,Inwards APAC
+Lebanon,Malaysia,33.9251,35.8987,4.8142,110.7531,5,Inwards APAC
+Lebanon,Pakistan,33.9251,35.8987,29.4913,68.8616,1,Inwards APAC
+Mali,Pakistan,17.4542,-3.4984,29.4913,68.8616,1,Inwards APAC
+Mali,Sri Lanka,17.4542,-3.4984,7.6176,80.7046,1,Inwards APAC
+Mauritania,Bangladesh,20.3462,-10.3191,22.8701,89.1914,1,Inwards APAC
+Mauritania,Pakistan,20.3462,-10.3191,29.4913,68.8616,2,Inwards APAC
+Mauritania,Islamic Republic of Iran,20.3462,-10.3191,32.764,54.2199,1,Inwards APAC
+Mozambique,Pakistan,-14.2996,38.1848,29.4913,68.8616,1,Inwards APAC
+Niger,Bangladesh,17.4828,9.4279,22.8701,89.1914,1,Inwards APAC
+Niger,India,17.4828,9.4279,22.6178,79.3773,2,Inwards APAC
+Niger,Pakistan,17.4828,9.4279,29.4913,68.8616,2,Inwards APAC
+Poland,Bangladesh,52.1847,19.3922,22.8701,89.1914,2,Inwards APAC
+Poland,Pakistan,52.1847,19.3922,29.4913,68.8616,4,Inwards APAC
+Poland,Islamic Republic of Iran,52.1847,19.3922,32.764,54.2199,1,Inwards APAC
+Somalia,India,4.4065,46.2037,22.6178,79.3773,1,Inwards APAC
+Somalia,Malaysia,4.4065,46.2037,4.8142,110.7531,1,Inwards APAC
+Somalia,Pakistan,4.4065,46.2037,29.4913,68.8616,2,Inwards APAC
+South Sudan,Malaysia,7.3023,30.3244,4.8142,110.7531,2,Inwards APAC
+Sudan,Bangladesh,16.1072,29.9736,22.8701,89.1914,1,Inwards APAC
+Sudan,Pakistan,16.1072,29.9736,29.4913,68.8616,6,Inwards APAC
+Sudan,Afghanistan,16.1072,29.9736,33.9098,66.0664,1,Inwards APAC
+Syrian Arab Republic,Malaysia,35.0359,38.5213,4.8142,110.7531,1,Inwards APAC
+United Republic of Tanzania,Pakistan,-6.2863,34.8108,29.4913,68.8616,1,Inwards APAC
+Trinidad and Tobago,Thailand,10.419,-61.2939,15.1991,101.0209,1,Inwards APAC
+Tunisia,Afghanistan,34.1645,9.5711,33.9098,66.0664,1,Inwards APAC
+Uganda,Bangladesh,1.2807,32.3912,22.8701,89.1914,2,Inwards APAC
+Uganda,India,1.2807,32.3912,22.6178,79.3773,5,Inwards APAC
+Uganda,Indonesia,1.2807,32.3912,-2.9659,113.6536,3,Inwards APAC
+Uganda,Malaysia,1.2807,32.3912,4.8142,110.7531,10,Inwards APAC
+Uganda,Pakistan,1.2807,32.3912,29.4913,68.8616,2,Inwards APAC
+Uganda,Thailand,1.2807,32.3912,15.1991,101.0209,2,Inwards APAC
