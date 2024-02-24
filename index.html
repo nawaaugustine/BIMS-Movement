@@ -11,22 +11,27 @@
     <!-- Include Turf.js from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf"></script>
     <link href='./style/style.css' rel='stylesheet' />
-    <style>
-        body { margin: 0; padding: 0; }
-        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
-        .info-panel-hidden { transform: translateX(100%); /* Initial state off-screen */ }
-    </style>
 </head>
 <body>
-<div id="map"></div>
-<div id="info-panel" class="info-panel-hidden">
-    <button class="close-btn">×</button> <!-- Ensure this matches the class used in querySelector -->
-    <h1></h1> <!-- Ensure there's an <h1> tag to update -->
-    <p></p> <!-- Ensure there's a <p> tag to update -->
-    <!-- Add more elements here as needed -->
-</div>
+    <div class="sidebar">
+        <select id="flowTypeSelect">
+            <option value="International">International</option>
+            <option value="Domestic">Domestic</option>
+            <!-- Add other flow types as needed -->
+        </select>
+        <input type="number" id="minCount" placeholder="Movement (Min)">
+        <input type="number" id="maxCount" placeholder="Movement (Max)">
+        <button id="applyFilters">Apply Filters</button>
+    </div>
+    <div id="map"></div>
+    <div id="info-panel" class="info-panel-hidden">
+        <button class="close-btn" onclick="document.getElementById('info-panel').classList.toggle('info-panel-hidden');">×</button>
+        <h1>Info Title</h1>
+        <p>Details will appear here.</p>
+        <!-- Add more elements here as needed -->
+    </div>
 
-<script src="movement.js"></script>
+    <script src="movement.js"></script>
 
 </body>
 </html>

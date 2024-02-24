@@ -1,3 +1,52 @@
+/* Reset and base styles */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Sidebar styling */
+.sidebar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    background-color: gray;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    width: 300px;
+}
+
+.sidebar select,
+.sidebar input,
+.sidebar button {
+    width: 100%;
+    margin: 5px 0;
+}
+
+.sidebar button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background-color: #0056b3;
+}
+
+/* Map container styling */
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Info panel styling */
 #info-panel {
     position: fixed;
     top: 0;

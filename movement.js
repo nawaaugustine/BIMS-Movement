@@ -15,6 +15,13 @@ const config = {
     dotCountFactor: 100
 };
 
+// Configuration object for spinning behavior
+const spinningConfig = {
+    isEnabled: false, // Initially false, will be set to true by default after initialization
+    spinningSpeed: -0.1, // Initial spinning speed
+    animationFrameId: null, // ID for the requestAnimationFrame to manage spinning
+};
+
 // Initialize the Mapbox map
 mapboxgl.accessToken = config.mapboxAccessToken;
 let map = new mapboxgl.Map({
@@ -32,11 +39,14 @@ let selectedFromCountry = null;
 let selectedToCountry = null;
 let globalGeoJson;
 let animationFrameRequestID;
+const infoPanel = document.getElementById('info-panel');
 
 map.on('load', function () {
     setFog();
     fetchDataAndInitialize(config.movementDataUrl);
     initializeSpinningGlobe();
+    spinningConfig.isEnabled = true; // Enable spinning by default
+    startSpinning(); // Start spinning immediately
 });
 
 /**
@@ -54,44 +64,101 @@ function setFog() {
 }
 
 /**
- * Fetches data and initializes map layers and animations.
- * @param {object} map - The Mapbox GL map instance.
+ * Fetches data and initializes map layers and animations with proper handling of CSV parsing.
+ * This function integrates fetching, retry logic, and parsing seamlessly for better efficiency.
  * @param {string} dataUrl - The URL to fetch movement data from.
  * @returns {Promise<void>}
  */
-function fetchDataAndInitialize(dataUrl) {
-    fetch(dataUrl)
-        .then(response => response.text())
-        .then(csvData => {
-            Papa.parse(csvData, {
-                complete: function (results) {
-                    globalGeoJson = convertToGeoJson(results.data);
-                    const aggregatedData = aggregateMovementCounts(globalGeoJson);
-                    initializeMovingDotsSourceAndLayer();
-                    animateDots(); // Simplified call
-                    addBubbleLayer(aggregatedData);
-                },
-                header: true
-            });
-        }).catch(error => console.error('Error loading movement data:', error));
+async function fetchDataAndInitialize(dataUrl) {
+    try {
+        const csvData = await fetchWithRetry(dataUrl, 3, 1000);
+        const parsedData = await parseCsvAsync(csvData);
+        if (parsedData.data && parsedData.data.length > 0) {
+            globalGeoJson = convertToGeoJson(parsedData.data);
+            const aggregatedData = aggregateMovementCounts(globalGeoJson);
+            initializeMovingDotsSourceAndLayer();
+            animateDots();
+            addBubbleLayer(aggregatedData);
+        } else {
+            throw new Error('Parsed data is empty or invalid');
+        }
+    } catch (error) {
+        console.error('Error fetching or processing movement data:', error);
+    }
 }
 
-// Simplified functions remain unchanged, omitted for brevity
+/**
+ * Wraps Papa Parse's parse method in a promise for use with async/await, ensuring CSV parsing is handled asynchronously.
+ * @param {string} csvData - The CSV data as a string.
+ * @returns {Promise<Object>} - A promise that resolves with the parsed CSV data.
+ */
+function parseCsvAsync(csvData) {
+    return new Promise((resolve, reject) => {
+        Papa.parse(csvData, {
+            header: true,
+            complete: results => {
+                if (results && results.data) {
+                    resolve(results);
+                } else {
+                    reject(new Error('No data found in CSV.'));
+                }
+            },
+            error: reject
+        });
+    });
+}
 
+/**
+ * Attempts to fetch data from a URL with retries on failure, leveraging async/await for clarity.
+ * @param {string} url - The URL to fetch data from.
+ * @param {number} retries - Number of allowed retries.
+ * @param {number} delay - Delay between retries in milliseconds.
+ * @returns {Promise<string>} - The fetched data as text if successful.
+ */
+async function fetchWithRetry(url, retries, delay) {
+    let error;
+    for (let attempt = 0; attempt < retries; attempt++) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Request failed with status: ${response.status}`);
+            return await response.text();
+        } catch (err) {
+            error = err;
+            console.log(`Attempt ${attempt + 1} failed: ${err.message}. Retrying after ${delay}ms...`);
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
+    }
+    throw error;
+}
+
+// Initializes the spinning globe feature and user interactions
 function initializeSpinningGlobe() {
-    // Toggle spinning on double click
-    map.on('dblclick', toggleSpinning);
-
-    // Adjust spinning based on user interactions
-    map.on('dragend', () => adjustSpinning(false));
-    map.on('pitchend', () => adjustSpinning(false));
-
-    // Start spinning immediately
-    adjustSpinning(true);
+    map.on('dblclick', () => toggleSpinning(!spinningConfig.isEnabled));
+    map.on('dragstart', () => stopSpinning());
+    map.on('pitchstart', () => stopSpinning());
 }
 
-function toggleSpinning() {
-    adjustSpinning(!spinning);
+// Toggles the spinning state and either starts or stops the spinning
+function toggleSpinning(enableSpinning) {
+    spinningConfig.isEnabled = enableSpinning;
+    if (enableSpinning) {
+        startSpinning();
+    } else {
+        stopSpinning();
+    }
+}
+// Starts the spinning animation of the globe
+function startSpinning() {
+    if (spinningConfig.animationFrameId) return; // Avoid starting multiple spin animations
+    spinGlobe();
+}
+
+// Stops the spinning animation of the globe
+function stopSpinning() {
+    if (spinningConfig.animationFrameId) {
+        cancelAnimationFrame(spinningConfig.animationFrameId);
+        spinningConfig.animationFrameId = null;
+    }
 }
 
 function adjustSpinning(shouldSpin) {
@@ -103,31 +170,47 @@ function adjustSpinning(shouldSpin) {
     }
 }
 
+// Spin the globe by updating the map's center longitude
+function spinGlobe() {
+    if (!spinningConfig.isEnabled) return; // Exit if spinning is disabled
+
+    const center = map.getCenter();
+    center.lng = (center.lng + spinningConfig.spinningSpeed) % 360;
+    map.setCenter(center);
+
+    spinningConfig.animationFrameId = requestAnimationFrame(spinGlobe);
+}
+
 // Utility function to convert CSV data to GeoJSON format
 function convertToGeoJson(csvData) {
-    return {
-        type: "FeatureCollection",
-        features: csvData.map(row => {
-            if (!row.country_from || !row.country_to) return null;
-            return {
-                type: "Feature",
-                geometry: {
-                    type: "LineString",
-                    coordinates: [
-                        [parseFloat(row.longitude_from), parseFloat(row.latitude_from)],
-                        [parseFloat(row.longitude_to), parseFloat(row.latitude_to)]
-                    ]
-                },
-                properties: {
-                    country_from: row.country_from,
-                    country_to: row.country_to,
-                    movement_count: parseInt(row.movement_count, 10),
-                    progress: 0, // Initial progress for animation
-                    speed: calculateSpeedBasedOnData(row) // Assign a speed value
-                }
-            };
-        }).filter(feature => feature !== null)
-    };
+    try {
+        return {
+            type: "FeatureCollection",
+            features: csvData.map(row => {
+                if (!row.country_from || !row.country_to) return null;
+                return {
+                    type: "Feature",
+                    geometry: {
+                        type: "LineString",
+                        coordinates: [
+                            [parseFloat(row.longitude_from), parseFloat(row.latitude_from)],
+                            [parseFloat(row.longitude_to), parseFloat(row.latitude_to)]
+                        ]
+                    },
+                    properties: {
+                        country_from: row.country_from,
+                        country_to: row.country_to,
+                        movement_count: parseInt(row.movement_count, 10),
+                        progress: 0,
+                        speed: calculateSpeedBasedOnData(row)
+                    }
+                };
+            }).filter(feature => feature !== null)
+        };
+    } catch (error) {
+        console.error('Error converting CSV to GeoJSON:', error);
+        return { type: "FeatureCollection", features: [] };
+    }
 }
 
 //Utility function to create speed
@@ -140,12 +223,16 @@ function calculateSpeedBasedOnData(row) {
 
 // Function to initialize moving dots source and layer if they don't exist
 function initializeMovingDotsSourceAndLayer() {
+    // Check if the source already exists to avoid redundant operations
     if (!map.getSource('moving-dots')) {
         map.addSource('moving-dots', {
             type: 'geojson',
             data: { type: 'FeatureCollection', features: [] }
         });
+    }
 
+    // Similarly, check if the layer already exists before attempting to add it
+    if (!map.getLayer('moving-dots-layer')) {
         map.addLayer({
             id: 'moving-dots-layer',
             type: 'circle',
@@ -155,6 +242,10 @@ function initializeMovingDotsSourceAndLayer() {
                 'circle-color': '#007cbf'
             }
         });
+    } else {
+        // If the layer already exists, you can opt to update its properties or data source if necessary
+        // For example, to update the data source (if your application logic requires it):
+        // map.getSource('moving-dots').setData(newGeoJsonData);
     }
 }
 
@@ -198,67 +289,123 @@ function generateMovingDotsForFeature(feature, movingDotsData) {
     if (feature.properties.progress > 1) feature.properties.progress %= 1; // Reset progress
 }
 
-// Calculate a point along a line at a specific progress point
+/**
+ * Calculates a point along a line at a specified progress ratio.
+ * @param {Object} feature - A GeoJSON feature representing the line.
+ * @param {number} progress - The progress ratio (0 to 1) along the line.
+ * @returns {Object|null} A GeoJSON point feature representing the location on the line, or null if invalid input.
+ */
 function calculatePointOnLine(feature, progress) {
-    if (feature.geometry.coordinates.some(coord => !coord || coord.length !== 2)) {
-        console.error('Invalid coordinates found in feature:', feature);
-        return null; // Early return to avoid passing invalid data to Turf.js
+    // Validate input to ensure it's a valid line with coordinates
+    if (!feature || !feature.geometry || !Array.isArray(feature.geometry.coordinates) || feature.geometry.coordinates.length < 2) {
+        console.error('Invalid line feature:', feature);
+        return null; // Early exit for invalid input
     }
-    const line = turf.lineString(feature.geometry.coordinates);
-    const totalDistance = turf.length(line, {units: 'kilometers'});
-    const distance = progress * totalDistance;
-    return turf.along(line, distance, {units: 'kilometers'});
+
+    // Use Turf.js to calculate the point along the line at the given progress
+    try {
+        const line = turf.lineString(feature.geometry.coordinates);
+        const totalLength = turf.length(line, { units: 'kilometers' });
+        const distanceAlong = totalLength * progress;
+        return turf.along(line, distanceAlong, { units: 'kilometers' });
+    } catch (error) {
+        console.error('Error calculating point on line:', error);
+        return null;
+    }
 }
 
-// Create a dot feature for the moving dots layer
+/**
+ * Creates a dot feature for visualization on the map.
+ * @param {Object} point - A GeoJSON point feature.
+ * @param {number} progress - The progress ratio of the dot along its path.
+ * @param {number} speed - The speed at which the dot moves.
+ * @returns {Object} A GeoJSON feature representing the dot.
+ */
 function createDotFeature(point, progress, speed) {
-    const proximity = progress; // Calculate proximity to the destination
+    if (!point || !point.geometry) {
+        console.error('Invalid point for dot feature:', point);
+        return null; // Early exit for invalid input
+    }
+
+    // Proximity could be used to adjust the visual appearance of the dot
+    const proximity = progress; // Simple direct use; refine based on your visualization needs
     const color = `rgba(${255 * (1 - proximity)}, ${255 * proximity}, 0, 1)`; // Color transition based on proximity
+
     return {
         type: 'Feature',
         geometry: point.geometry,
-        properties: { proximity, color }
+        properties: {
+            proximity,
+            color,
+            speed
+        }
     };
 }
 
-// Spin the globe by updating the map's center longitude
-function spinGlobe() {
-    if (!spinning) return;
-
-    const center = map.getCenter();
-    center.lng += config.spinningSpeed;
-    if (center.lng <= -180 || center.lng >= 180) center.lng = center.lng % 180;
-    map.setCenter(center);
-
-    animationFrameId = requestAnimationFrame(spinGlobe);
-}
-
-// Aggregate movement counts for bubble layer initialization
+/**
+ * Aggregates movement counts for each country from GeoJSON data.
+ * @param {Object} geoJson - The GeoJSON object containing movement data.
+ * @returns {Array} An array of GeoJSON features with aggregated movement counts.
+ */
 function aggregateMovementCounts(geoJson) {
+    if (!geoJson || !Array.isArray(geoJson.features)) {
+        console.error('Invalid GeoJSON data provided to aggregateMovementCounts');
+        return []; // Return an empty array to avoid further processing errors
+    }
+
     const aggregation = geoJson.features.reduce((acc, feature) => {
         const { country_from, movement_count } = feature.properties;
-        acc[country_from] = (acc[country_from] || 0) + movement_count;
+        // Initialize country entry in accumulator if not already present
+        if (!acc[country_from]) {
+            acc[country_from] = { count: 0, coordinates: [] };
+        }
+        acc[country_from].count += movement_count;
+        // Store coordinates if not already done
+        if (!acc[country_from].coordinates.length) {
+            acc[country_from].coordinates = feature.geometry.coordinates[0];
+        }
         return acc;
     }, {});
 
-    return Object.entries(aggregation).map(([country, count]) => ({
+    return Object.entries(aggregation).map(([country, data]) => ({
         type: "Feature",
-        properties: { country_from: country, movement_count: count },
-        geometry: { type: "Point", coordinates: findCoordinatesForCountry(geoJson, country) }
+        properties: { country_from: country, movement_count: data.count },
+        geometry: { type: "Point", coordinates: data.coordinates }
     }));
 }
 
-// Find coordinates for a given country in the GeoJSON data
+/**
+ * Finds coordinates for a given country based on aggregated data.
+ * @param {Object} aggregatedData - Aggregated data including countries and their coordinates.
+ * @param {string} country - The country to find coordinates for.
+ * @returns {Array} The coordinates for the country, or a default value if not found.
+ */
 function findCoordinatesForCountry(geoJson, country) {
     const feature = geoJson.features.find(f => f.properties.country_from === country);
     return feature ? feature.geometry.coordinates[0] : [0, 0]; // Default to [0, 0] if not found
 }
 
+/**
+ * Adds or updates a bubble layer on the map with aggregated data.
+ * @param {Array} aggregatedData - The aggregated data to visualize.
+ */
 function addBubbleLayer(aggregatedData) {
     const sourceId = 'country-from-bubbles';
     const layerId = 'country-from-bubbles-layer';
 
-    if (!map.getSource(sourceId)) {
+    // Validate aggregatedData structure
+    if (!Array.isArray(aggregatedData) || !aggregatedData.length) {
+        console.error('addBubbleLayer called with invalid or empty aggregatedData');
+        return; // Prevent further execution if data is invalid
+    }
+
+    // Check if the source exists and update it; otherwise, create a new source and layer
+    if (map.getSource(sourceId)) {
+        map.getSource(sourceId).setData({
+            type: 'FeatureCollection',
+            features: aggregatedData
+        });
+    } else {
         map.addSource(sourceId, {
             type: 'geojson',
             data: {
@@ -266,14 +413,6 @@ function addBubbleLayer(aggregatedData) {
                 features: aggregatedData
             }
         });
-    } else {
-        map.getSource(sourceId).setData({
-            type: 'FeatureCollection',
-            features: aggregatedData
-        });
-    }
-
-    if (!map.getLayer(layerId)) {
         map.addLayer({
             id: layerId,
             type: 'circle',
@@ -285,14 +424,16 @@ function addBubbleLayer(aggregatedData) {
             }
         });
     }
-
+    
     // Ensure interaction handlers are initialized after adding the layer
     initializeBubbleLayerInteractions();
 }
 
-const infoPanel = document.getElementById('info-panel');
-
 function showInformationPanel(connection) {
+
+    // Change the projection to 'mercator' for a flat map view
+    map.setProjection('mercator');
+
     // Validate connection object for necessary properties
     if (!connection.fromCoordinates || connection.fromCoordinates.length !== 2) {
         console.error('Invalid coordinates provided for information panel:', connection.fromCoordinates);
@@ -300,6 +441,8 @@ function showInformationPanel(connection) {
     }
 
     // Stop the globe spinning to focus user attention on the information panel
+    spinningConfig.isEnabled = false; // Enable spinning by default
+    stopSpinning(); // Stop spinning immediately
     adjustSpinning(false);
 
     // Update the UI elements with the connection details
@@ -310,7 +453,7 @@ function showInformationPanel(connection) {
         center: connection.fromCoordinates,
         essential: true,
         padding: {top: 0, bottom: 0, left: 0, right: 300},
-        zoom: 3
+        zoom: 2
     });
 }
 
@@ -331,8 +474,13 @@ function updateInformationPanelUI(connection) {
 }
 
 function hideInformationPanel() {
+    // Change the projection back to 'globe'
+    map.setProjection('globe');
+
     // Resume the spinning of the globe to indicate the return to the global view
     adjustSpinning(true);
+    spinningConfig.isEnabled = true; // Enable spinning by default
+    startSpinning(); // Start spinning immediately
 
     // Transition the panel out of view
     infoPanel.style.transform = 'translateX(100%)';
@@ -557,7 +705,6 @@ function refreshBubbleVisualization() {
     }
 }
 
-
 function aggregateGlobalMovementCounts(geoJson) {
     // This function aggregates movement counts for all countries, creating a global overview.
     let counts = {};
@@ -593,3 +740,5 @@ function aggregateDataForSelectedCountry(movements, selectedCountry) {
     // This is a placeholder for the aggregation logic, which should match your app's requirements.
     return aggregateDataForBothDirections(selectedCountry, movements);
 }
+
+
